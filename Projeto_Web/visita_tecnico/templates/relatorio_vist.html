@@ -1,0 +1,130 @@
+{% load static %}
+{% load permission_tags %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'visita_tecnico/css/visita_tecnico.css' %}">
+    <title>Visita Tecnica</title>
+</head>
+{% if user|has_role:'gerente' %} <!-- Permite que apenas usuarios com cargo de gerente tenham acesso a esse html -->
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Tecnica</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "criar_usuario" %}" >Criar Usuario</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "lista" %}">Lista de usuarios</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url 'enviar_solicitação' %}">Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+    <form action="{% url "relatorio_vist" %}" method="POST">{% csrf_token %}
+        <fieldset>
+            <legend><h3>Relatório de Visitas</h3></legend>
+            <div>
+                <label for="nom_tecnicos">Usuario:</label>
+                <input type="text" id="nom_tecnicos" name="nom_tecnicos" placeholder="Insira o seu usuario de login" required><br>
+            </div>
+            <div>
+                <label for="nom_tecnicos_real">Primeiro Nome:</label>
+                <input type="text" id="nom_tecnicos_real" name="nom_tecnicos_real" placeholder="Insira o seu primeiro nome" required><br>
+            </div>
+            <div>
+                <label for="nom_tecnicos_real_f">Ultimo Nome:</label>
+                <input type="text" id="nom_tecnicos_real_f" name="nom_tecnicos_real_f" placeholder="Insira o seu ultimo nome" required><br>
+            </div>
+            <div>
+                <label for="nom_clientes">Cliente:</label>
+                <input type="text" id="nom_clientes" name="nom_clientes" placeholder="Insira o nome do cliente" required><br>
+            </div>
+            <div>
+                <label for="enderecos">Endereço:</label>
+                <input type="text" id="enderecos" name="enderecos" placeholder="Insira o endereço da visita"required><br>
+            </div>
+            <div>
+                <label for="datas">Data:</label>
+                <input type="date" id="datas" name="datas" min = '2024-01-01' required><br>
+            </div>
+            <div>
+                <label for="prod_usados">Produtos utilizados:</label><br>
+                <textarea name="prod_usados" id="prod_usados" rows="3" cols="33" placeholder="Insira os produtos usados Ex:          1x - Cabo c, 3x - Cabo de rede" required></textarea><br>
+            </div>
+            <div>
+                <label for="observacoes">Observações:</label><br>
+                <textarea name="observacoes" id="observacoes" rows="3" cols="33" placeholder="Insira alguma observação"></textarea><br>
+            </div>
+            <div>
+                <button type="submit">Enviar</button>
+            </div>        
+        </fieldset>
+    </form>
+    <script></script>
+    <script>
+        {% if add %}
+        alert("Relatorio enviado com sucesso")
+        {% elif erro %}
+        alert('Usuario errado, insira o SEU usuario!')
+        {% endif %}
+    </script>
+</body>
+{% else %}
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Técnica</a>
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "enviar_solicitação" %}" >Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+    <form action="{% url "relatorio_vist" %}" method="POST">{% csrf_token %}
+        <fieldset>
+            <legend><h3>Relatório de Visitas</h3></legend>
+            <div>
+                <label for="nom_tecnicos">Usuario:</label>
+                <input type="text" id="nom_tecnicos" name="nom_tecnicos" placeholder="Insira o seu usuario de login" required><br>
+            </div>
+            <div>
+                <label for="nom_tecnicos_real">Primeiro Nome:</label>
+                <input type="text" id="nom_tecnicos_real" name="nom_tecnicos_real" placeholder="Insira o seu primeiro nome" required><br>
+            </div>
+            <div>
+                <label for="nom_tecnicos_real_f">Ultimo Nome:</label>
+                <input type="text" id="nom_tecnicos_real_f" name="nom_tecnicos_real_f" placeholder="Insira o seu ultimo nome" required><br>
+            </div>
+            <div>
+                <label for="nom_clientes">Cliente:</label>
+                <input type="text" id="nom_clientes" name="nom_clientes" placeholder="Insira o nome do cliente" required><br>
+            </div>
+            <div>
+                <label for="enderecos">Endereço:</label>
+                <input type="text" id="enderecos" name="enderecos" placeholder="Insira o endereço da visita"required><br>
+            </div>
+            <div>
+                <label for="datas">Data:</label>
+                <input type="date" id="datas" name="datas" min = '2024-01-01' required><br>
+            </div>
+            <div>
+                <label for="prod_usados">Produtos utilizados:</label><br>
+                <textarea name="prod_usados" id="prod_usados" rows="3" cols="33" placeholder="Insira os produtos usados Ex:          1x - Cabo c, 3x - Cabo de rede"></textarea><br>
+            </div>
+            <div>
+                <label for="observacoes">Observações:</label><br>
+                <textarea name="observacoes" id="observacoes" rows="3" cols="33" placeholder="Insira alguma observação"></textarea><br>
+            </div>
+            <div>
+                <button type="submit">Enviar</button>
+            </div>        
+        </fieldset>
+    </form>
+    <script src="{% static 'sistema/visita_tecnico/js/visita_tecnico.js' %}"></script>
+    <script>
+        {% if add %}
+        alert("Relatorio enviado com sucesso")
+        {% elif erro %}
+        alert('Usuario errado, insira o SEU usuario!')
+        {% endif %}
+    </script>
+</body>
+{% endif %}
+</html>

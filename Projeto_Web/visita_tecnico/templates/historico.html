@@ -1,0 +1,120 @@
+{% load static %} <!-- Funcionalidade do django resposavel por rodar arquivos estaticos, ex: Js, css e IMG -->
+{% load permission_tags %} <!-- Funcionalidade do django resposavel por puxar os cargos criados, ex: 'Gerente' e 'Tecnico' -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'sistema/visita_tecnico/visita_tecnico.css' %}">
+    <title>Historico</title>
+</head>
+{% if user|has_role:'gerente' %} <!-- Permite que apenas usuarios com cargo de gerente tenham acesso a esse html -->
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Tecnica</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "criar_usuario" %}" >Criar Usuario</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "lista" %}">Lista de usuarios</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url 'enviar_solicitação' %}">Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+    <div>
+        <table border="1">
+            <caption>Quantidade de relatorios: {{ verrelat|length }}</caption> <!-- A variavel verrelat, como eu falei na views, é responsavel por sempre manter o estoque atualizadom, e a lenght ela informa a quantidade de objetos presente no banco de dados -->
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>P - Nome</th>
+                    <th>U - Nome</th>
+                    <th>Cliente</th>
+                    <th>Endereços</th>
+                    <th>Data</th>
+                    <th>Produtos usados</th>
+                    <th>Observação</th>
+                    <th>Usuario</th>
+                    <th>Função</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for relatorio in verrelat %} <!-- Aqui em resumo é um loop de repetição, no qual o loop passa de produto em produto, da variavel verprod, isso fazendo com que a tabela aumente sempre que tem um novo produto -->
+                <tr>
+                    <td>{{ relatorio.id_visita }}</td>
+                    <td>{{ relatorio.nom_tecnico }}</td>
+                    <td>{{ relatorio.nom_tecnico_f }}</td> <!-- ISSO VALE PARA TODAS ABAIXO = aqui eu puxei o produto, junto com o produto, eu puxei o id dele -->
+                    <td>{{ relatorio.nom_cliente }}</td>
+                    <td>{{ relatorio.endereco }}</td>
+                    <td>{{ relatorio.data }}</td>
+                    <td>{{ relatorio.prod_usado }}</td>
+                    <td>{{ relatorio.observacao }}</td>
+                    <td>{{ relatorio.user }}</td>
+                    <td>
+                        <a href="{% url 'deletar_visita' relatorio.id_visita %}"><button id="update">Deletar</button></a> <!-- Responsavel pelo botão 'editar' -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>    
+    </div>
+    <div>
+        <a href="{% url 'exportar_csvh' %}"><button id = 'csv'>Exportar Visitas</button></a>
+        <a href="{% url 'exportar_csv_geral' %}"><button id = 'csvg'>Exportar Visitias + Estoque</button></a>
+    </div>
+    <!-- Responsavel pelo pop-up -->
+    <script>
+        {% if add  %}
+        alert('A visita foi salva!'); 
+        {% endif %}
+    </script>
+
+    <script src="{% static 'sistema/estoque/js/estoque.js' %}"></script>    
+</body>
+{% else %}
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Técnica</a>
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "enviar_solicitação" %}" >Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+    <div>
+        <table border="1">
+            <caption>Quantidade de relatorios: {{ verrelat|length }}</caption> <!-- A variavel verrelat, como eu falei na views, é responsavel por sempre manter o estoque atualizadom, e a lenght ela informa a quantidade de objetos presente no banco de dados -->
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>P - Nome</th>
+                    <th>U - Nome</th>
+                    <th>Cliente</th>
+                    <th>Endereços</th>
+                    <th>Data</th>
+                    <th>Produtos usados</th>
+                    <th>Observação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for relatorio in verrelat %} <!-- Aqui em resumo é um loop de repetição, no qual o loop passa de produto em produto, da variavel verprod, isso fazendo com que a tabela aumente sempre que tem um novo produto -->
+                <tr>
+                    <td>{{ relatorio.id_visita }}</td>
+                    <td>{{ relatorio.nom_tecnico }}</td>
+                    <td>{{ relatorio.nom_tecnico_f }}</td> <!-- ISSO VALE PARA TODAS ABAIXO = aqui eu puxei o produto, junto com o produto, eu puxei o id dele --><!-- ISSO VALE PARA TODAS ABAIXO = aqui eu puxei o produto, junto com o produto, eu puxei o id dele -->
+                    <td>{{ relatorio.nom_cliente }}</td>
+                    <td>{{ relatorio.endereco }}</td>
+                    <td>{{ relatorio.data }}</td>
+                    <td>{{ relatorio.prod_usado }}</td>
+                    <td>{{ relatorio.observacao }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+         <!-- Responsavel pelo pop-up -->
+        <script>
+            {% if add  %}
+            alert('A visita foi salva!'); 
+            {% endif %}
+        </script>
+        <script src="{% static 'sistema/visita_tecnico/js/visita_tecnico.js' %}"></script>
+    </div>
+</body>
+{% endif %}

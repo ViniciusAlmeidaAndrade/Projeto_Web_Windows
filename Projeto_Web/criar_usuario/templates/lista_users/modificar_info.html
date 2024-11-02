@@ -1,0 +1,64 @@
+{% load static %} <!-- Funcionalidade do django resposavel por rodar arquivos estaticos, ex: Js, css e IMG -->
+{% load permission_tags %} <!-- Funcionalidade do django resposavel por puxar os cargos criados, ex: 'Gerente' e 'Tecnico' -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'sistema/criar_usuario/css/criar_usuario.css' %}">
+    <title>Editar informações</title>
+</head>
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Tecnica</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "criar_usuario" %}" >Criar Usuario</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "lista" %}">Lista de usuarios</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url 'enviar_solicitação' %}">Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <h1>Editar Usuario: {{ usuario.username }}</h1>
+        </div>
+        <div>
+            <label for="first_name">Primeiro nome:</label>
+            <input type="text" name="first_name" id="first_name" value="{{ usuario.first_name }}" required>
+        </div>
+        <div>
+            <label for="last_name">Ultimo nome:</label>
+            <input type="text" name="last_name" id="last_name" value="{{ usuario.last_name }}" required>
+        </div>
+        <div>
+            <label for="username">Usuario:</label>
+            <input type="text" name="username" id="username" value="{{ usuario.username }}" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="{{ usuario.email }}" required>
+        </div>
+        <div>
+            <button type="submit">Atualizar {{ usuario.username }}</button>
+        </div>
+    </form>
+
+    <div>
+        <a href="{% url 'lista' %}"><button id="del">Desistir</button></a>
+    </div>
+
+    <script src="{% static 'sistema/criar_usuario/js/criar_usuario.js' %}"></script>
+    <!-- Responsavel por aparecer o pop-up -->
+    <script>
+        {% if nao_add %}
+        alert('Já existe um produto com o mesmo nome!!');
+        {% elif add %}
+        alert('Usuario alterado com sucesso!')
+        {% elif duplicado %}
+        alert('Já existe um funcionario com o mesmo usuario!');
+        {% endif %}
+    </script>
+</body>
+</html>

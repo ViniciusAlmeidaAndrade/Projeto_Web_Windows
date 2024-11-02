@@ -1,0 +1,57 @@
+{% load static %} <!-- Funcionalidade do django resposavel por rodar arquivos estaticos, ex: Js, css e IMG -->
+{% load permission_tags %} <!-- Funcionalidade do django resposavel por puxar os cargos criados, ex: 'Gerente' e 'Tecnico' -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'sistema/estoque/css/estoque.css' %}">
+    <title>Editar Produto</title>
+</head>
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Tecnica</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "criar_usuario" %}" >Criar Usuario</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "lista" %}">Lista de usuarios</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url 'enviar_solicitação' %}">Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+    <form method = "POST">
+        {% csrf_token %}
+        <div>
+            <h1>Editar Produto: {{ produto.nome_prod }}</h1> <!-- Aqui é responsavel por aparecer o nome do produto -->
+        </div>
+        <div>
+            <label for="nome">Nome do Produto:</label>
+            <input type="text" name="nome" id="nome" value="{{ produto.nome_prod }}" required>
+        </div>
+        <div>
+            <label for="valor">Valor do Produto:</label>
+            <input type="number" name="valor" id="valor" min="0" step="0.01" value="{{ produto.vlr_prod }}" required>
+        </div>
+        <div>
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" name="quantidade" id="quantidade" min="0" value="{{ produto.qntd_prod }}" required>
+        </div>
+        <div>
+            <label for="data_entrada">Data de Entrada:</label>
+            <input type="date" name="data_entrada" id="data_entrada" value="{{ produto.entrada_prod|date:'Y-m-d' }}" min = '2024-01-01' required>
+        </div>
+        <div>
+            <button type="submit">Atualizar Produto</button>
+        </div>
+    </form>
+    <a href="{% url 'estoque' %}"><button id="del">Desistir</button></a> <!-- Responsavel pelo botão 'desistir'-->
+
+    <script src="{% static 'sistema/estoque/js/estoque.js' %}"></script>
+    <!-- Responsavel pelo pop-up -->
+    <script>
+        {% if nao_add %}
+        alert('Já existe um produto com o mesmo nome!!');
+        {% endif %}
+    </script>
+</body>
+</html>

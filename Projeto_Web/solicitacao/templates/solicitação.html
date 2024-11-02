@@ -1,0 +1,90 @@
+{% load static %} <!-- Funcionalidade do django resposavel por rodar arquivos estaticos, ex: Js, css e IMG -->
+{% load permission_tags %} <!-- Funcionalidade do django resposavel por puxar os cargos criados, ex: 'Gerente' e 'Tecnico' -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'sistema/solicitação/css/solicitação.css' %}">
+    <title>Solicitação</title>
+</head>
+{% if user|has_role:'gerente' %}  <!-- Permite que apenas usuarios com cargo de gerente tenham acesso a esse html -->
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Tecnica</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "criar_usuario" %}" >Criar Usuario</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "lista" %}">Lista de usuarios</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url 'enviar_solicitação' %}">Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+        <h1>Faça uma solicitação</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div>
+                <label for = "assunto">Email</label>
+                <input type = "email" id="email" name = "email" placeholder="Insira o email">
+            </div>
+            <div>
+                <label for="assunto">Assunto</label>
+                <input type="text" id = "assunto" name = "assunto" placeholder = "Insira o assunto">
+            </div>
+            <div>
+                <label for = "mensagem">Mensagem</label>
+                <textarea id = "mensagem" name = "mensagem" placeholder = "Insira sua mensagem"></textarea>
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <script src="{% static 'sistema/solicitação/js/solicitação.js' %}"></script>
+    <!-- Responsavel por aparecer o pop up -->        
+    <script>
+        {% if feito %}
+        alert('O email foi enviado!')
+        {% elif erro %}
+        alert('É necessario preencher todos os campos!')
+        {% endif %}
+    </script>
+</body>
+{% else %}
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Técnica</a>
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "enviar_solicitação" %}" >Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+    <div>
+        <h1>Faça uma solicitação</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div>
+                <label for = "assunto">Email</label>
+                <input type = "email" id="email" name = "email" placeholder="Insira o email" required>
+            </div>
+            <div>
+                <label for="assunto">Assunto</label>
+                <input type="text" id = "assunto" name = "assunto" placeholder = "Insira o assunto" required>
+            </div>
+            <div>
+                <label for = "mensagem">Mensagem</label>
+                <textarea id = "mensagem" name = "mensagem" placeholder = "Insira sua mensagem"></textarea required>
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <script src="{% static 'sistema/solicitação/js/solicitação.js' %}"></script>
+        <!-- Responsavel por aparecer o pop up -->          
+    <script>
+        {% if feito %}
+        alert('O email foi enviado!')
+        {% elif erro %}
+        alert('É necessario preencher todos os campos!')
+        {% endif %}
+    </script>
+</body>
+{% endif %} 
+</html>

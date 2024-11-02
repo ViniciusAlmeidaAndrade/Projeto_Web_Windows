@@ -1,0 +1,69 @@
+{% load static %} <!-- Funcionalidade do django resposavel por rodar arquivos estaticos, ex: Js, css e IMG -->
+{% load permission_tags %} <!-- Funcionalidade do django resposavel por puxar os cargos criados, ex: 'Gerente' e 'Tecnico' -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'sistema/criar_usuario/css/criar_usuario.css' %}">
+    <title>Cadastrar Tecnico</title>
+</head>
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Tecnica</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "criar_usuario" %}" >Criar Usuario</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "lista" %}">Lista de usuarios</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url 'enviar_solicitação' %}">Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+    <div class="form">
+        <form method="POST">
+            {% csrf_token %}
+            <div>
+                <h1>Cadrasto de Usuarios</h1>
+            </div>
+            <div>
+                <label for = "p-nome">Primeiro Nome:</label>
+                <input type = "text" name = 'first_name' id = 'p-nome' placeholder = "Insira o primeiro nome" required>
+            </div>
+            <div>
+                <label for = "u-nome">Ultimo Nome:</label>
+                <input type = "text" name = 'last_name' id = 'u-nome' placeholder = "Insira o ultimo nome" required>
+            </div>
+            <div>
+                <label for="username">Usuario:</label>
+                <input type="text" name = 'username' id = 'username' placeholder="Insira o usuario" required>
+            </div>
+            <div>
+                <label for = "email">Email:</label>
+                <input type = "email" name = 'email' id = 'email' placeholder="exemplo@gmail.com" required>
+            </div>
+            <div>
+                <label for="password">Senha:</label>
+                <input type="password" name = 'password' id = 'password' placeholder="Insira a senha" required>
+            </div>
+            <div>
+                <label for="password1">Confirme a senha:</label>
+                <input type="password" name = 'password1' id = 'password1' placeholder="Confirme a senha" required>
+            </div>
+            <div>
+                <button type="submit">Criar</buttonr>
+            </div>
+             
+        </form>
+    </div>
+    <!-- Responsavel por mostrar o pop-up-->
+    <script>
+        {% if duplicado %}
+        alert('Já existe um funcionario com o mesmo usuario!');
+        {% elif add %}
+        alert('Usuario criado!')
+        {% elif erro %}
+        alert('Senhas divergentes!')
+        {% endif %}
+    </script>
+</body>
+</html>

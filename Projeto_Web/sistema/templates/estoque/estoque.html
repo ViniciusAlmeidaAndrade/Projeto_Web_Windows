@@ -1,0 +1,108 @@
+{% load static %} <!-- Funcionalidade do django resposavel por rodar arquivos estaticos, ex: Js, css e IMG -->
+{% load permission_tags %} <!-- Funcionalidade do django resposavel por puxar os cargos criados, ex: 'Gerente' e 'Tecnico' -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'sistema/estoque/css/estoque.css' %}">
+    <title>Meu Estoque</title>
+</head>
+{% if user|has_role:'gerente' %} <!-- Permite que apenas usuarios com cargo de gerente tenham acesso a esse html -->
+
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Tecnica</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "criar_usuario" %}" >Criar Usuario</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "lista" %}">Lista de usuarios</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url 'enviar_solicitação' %}">Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+    <div>
+        
+    </div>
+    <div>
+        <table border="1">
+            <caption>Produtos em estoque: {{ verprod|length }}</caption> <!-- A variavel verprod, como eu falei na views, é responsavel por sempre manter o estoque atualizadom, e a lenght ela informa a quantidade de objetos presente no banco de dados -->
+            <caption></caption>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Qntd</th>
+                    <th>Valor</th>
+                    <th>Data de entrada</th>
+                    <th>Funções</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in verprod %} <!-- Aqui em resumo é um loop de repetição, no qual o loop passa de produto em produto, da variavel verprod, isso fazendo com que a tabela aumente sempre que tem um novo produto -->
+                <tr>
+                    <td>{{ produto.id_prod }}</td> <!-- ISSO VALE PARA TODAS ABAIXO = aqui eu puxei o produto, junto com o produto, eu puxei o id dele -->
+                    <td>{{ produto.nome_prod }}</td>
+                    <td>{{ produto.qntd_prod }}</td>
+                    <td>{{ produto.vlr_prod }}</td>
+                    <td>{{ produto.entrada_prod }}</td>
+                    <td>
+                        <a href="{% url 'editar_produto' produto.id_prod %}"><button id="update">Editar</button></a> <!-- Responsavel pelo botão 'editar' -->
+                        <a href="{% url 'deletar_produto' produto.id_prod %}"><button id="deletar">Apagar</button></a> <!-- Responsavel pelo botão 'apagar' -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            <div>
+                <a href="{% url 'add_estoque' %}"><button id = "add">Adicionar produto</button></a>
+                <a href="{% url 'exportar_csv' %}"><button id = 'csv'>Exportar Estoque</button></a>
+                <a href="{% url 'exportar_csv_geral' %}"><button id = 'csvg'>Exportar Estoque + Visitas</button></a>
+            </div>
+        </div>   
+ 
+         <!-- Responsavel pelo pop-up -->
+        <script>
+            {% if add  %}
+            alert('O produto foi atualizado!'); 
+            {% endif %}
+        </script>
+        <script src="{% static 'sistema/estoque/js/estoque.js' %}"></script>        
+    </div>
+</body>
+{% elif user|has_role:'tecnico' %} <!-- Permite que apenas usuarios com cargo de tecnico tenham acesso a esse html -->
+<body>
+    <div>
+        <a href="{% url "estoque" %}" >Estoque</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "relatorio_vist" %}">Visita Técnica</a>
+        <a href="{% url "historico" %}">Historico de Visitas</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "enviar_solicitação" %}" >Solicitação</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->
+        <a href="{% url "logout" %}">Logout</a> <!-- Responsavel pela navegação entre as páginas dentro do sistema -->     
+    </div>
+    <table border="1">
+        <caption>Produtos em estoque: {{ verprod|length }}</caption> <!-- A variavel verprod, como eu falei na views, é responsavel por sempre manter o estoque atualizadom, e a lenght ela informa a quantidade de objetos presente no banco de dados -->
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Qntd</th>
+                <th>Valor</th>
+                <th>Data de entrada</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in verprod %} <!-- Aqui em resumo é um loop de repetição, no qual o loop passa de produto em produto, da variavel verprod, isso fazendo com que a tabela aumente sempre que tem um novo produto -->
+            <tr>
+                <td>{{ produto.id_prod }}</td> <!-- ISSO VALE PARA TODAS ABAIXO = aqui eu puxei o produto, junto com o produto, eu puxei o id dele -->
+                <td>{{ produto.nome_prod }}</td>
+                <td>{{ produto.qntd_prod }}</td>
+                <td>{{ produto.vlr_prod }}</td>
+                <td>{{ produto.entrada_prod }}</td>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="{% static 'sistema/estoque/js/estoque.js' %}"></script>
+</body>
+{% endif %}

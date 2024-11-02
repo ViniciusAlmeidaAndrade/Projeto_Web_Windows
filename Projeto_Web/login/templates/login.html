@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "login/css/login.css" %}">
+    <title>Login</title>
+    <h1>Login</h1>
+</head>
+<body>
+    <div class="form">
+        <form action="#" class="sub-form" method = 'POST'>
+            {% csrf_token %}
+            <div class="subir-form">
+                <h2>Login</h2>
+                <label>Usuário</label>
+                <input type="text" name="username" placehold = 'Insira seu usuário'required> <br>
+
+                <label>Senha</label>
+                <input type="password" name="password" placehold = 'Insira sua senha'required> <br>
+
+                <div class="butao-login">
+                    <button action = "{% url 'estoque' %}" type="submit">Login</button> <br>
+                </div>
+    <script src="{% static "login/js/login.js" %}"></script>
+    <script>
+        {% if usuario_invalido %}
+        alert('Usuario ou senha invalído! Tente novamente!');
+        {% endif %}
+    </script>
+</body>
+</html>
