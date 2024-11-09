@@ -43,28 +43,6 @@ def lista_usuarios(request):#Views responsavel por listar todos os usuarios pres
     ver_user = User.objects.all()
     return render(request, 'lista_users/lista.html', {'ver_user': ver_user})
     
-@has_role_decorator('gerente')    
-def mudar_senha(request, id): #Views responsavel por alterar a senha do usuario
-    #Estou puxando o objeto do banco de dados, se esse objeto por algum motivo não existir, vai retornar um erro 404. Eu estou puxando o produto pelo id, pois o id sempre será unico
-    user = get_object_or_404(User, id=id)
-    
-    if request.method == 'GET':
-        return render(request, 'lista_users/editar.html', {'user': user})        
-    else:
-        #Voce ira receber a nova senha, após isso, ira salver o usuario
-        nova_senha = request.POST.get('senha')
-        nova_senha1 = request.POST.get('senha1')
-        if nova_senha1 != nova_senha:
-            #Pop-Up de senhas diferntes
-            return render(request, 'lista_users/editar.html', {'erro': True})
-        elif nova_senha:
-            user.set_password(nova_senha)
-            user.save()
-            ver_user = User.objects.all()
-            return render(request, 'lista_users/lista.html', {'ver_user': ver_user , 'add_senha': True})
-        else:
-            #Pop-up de erro
-            return render(request, 'lista_users/editar.html', {'user': user , 'nao_add': True})
 
 @has_role_decorator('gerente')            
 def deletar_usuario(request, id): #Views responsavel por deletar o usuario
@@ -78,24 +56,41 @@ def deletar_usuario(request, id): #Views responsavel por deletar o usuario
 
     return render(request, 'lista_users/remover.html', {'usuario': usuario})    
 
-@has_role_decorator('gerente')            
-def modificar_usuario(request, id): #Views responsavel por editar informações do usuario (exceto senha)
-    #Estou puxando o objeto do banco de dados, se esse objeto por algum motivo não existir, vai retornar um erro 404. Eu estou puxando o produto pelo id, pois o id sempre será unico
+@has_role_decorator('gerente')
+def modificar_usuario(request, id):
+    #Puxando o objeto do banco de dados, se não existir, retorna erro 404
     usuario = get_object_or_404(User, id=id)
     
+    #Verifação se existe um username igual o informado
     username = request.POST.get('username')
-    user = User.objects.filter(username = username).first()
-    if user:
+    user = User.objects.filter(username=username).exclude(id =usuario.id).first()
+    if user: #Basicamente, se user foi verdadeiro, ele retorna o pop up de erro
         return render(request, 'lista_users/modificar_info.html', {'duplicado': True, 'usuario': usuario})
+    
     elif request.method == 'POST':
-        #Recebo os dados do formulario, após isso, salvo os novos dados dele
+        # Atualiza os dados
         usuario.first_name = request.POST.get('first_name')
         usuario.last_name = request.POST.get('last_name')
         usuario.username = request.POST.get('username')
         usuario.email = request.POST.get('email')
+        
+        #Puxando a senha do form
+        nova_senha = request.POST.get('senha')
+        confirmar_senha = request.POST.get('senha1')
+        
+        if nova_senha and confirmar_senha:
+            if nova_senha == confirmar_senha:
+                # Atualiza a senha do usuario
+                usuario.set_password(nova_senha)
+            else:
+                return render(request, 'lista_users/modificar_info.html', {'senha': True, 'usuario': usuario})
+                
+
+        #Salva os as informações dos usuarios
         usuario.save()
         
+        #Redireciona para a lista de usuarios
         veruser = User.objects.all()
-        return render(request, 'lista_users/lista.html', {'duplicado': True, 'usuario': usuario, 'ver_user': veruser})
+        return render(request, 'lista_users/lista.html', {'add': True, 'usuario': usuario, 'ver_user': veruser})
 
     return render(request, 'lista_users/modificar_info.html', {'usuario': usuario})

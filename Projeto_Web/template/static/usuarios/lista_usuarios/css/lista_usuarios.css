@@ -1,0 +1,157 @@
+body {
+    font-family: 'Nunito', sans-serif;
+    background-image: linear-gradient(45deg, #21D4FD 0%, #B721FF 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.tabela {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+
+}
+
+.tabela table {
+    width: 100%;
+    max-width: 700px;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    background: #ffffff;
+}
+
+.tabela caption {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.tabela th, 
+.tabela td {
+    padding: 2px 20px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+.ult-login{
+    min-width: 230px;
+}
+.funcoes{
+    min-width: 50px;
+}
+.tabela thead {
+    background-color: #1A1B27;
+    color: #ffffff;
+}
+
+.tabela tbody tr:nth-child(even) {
+    background-color: #f3f3f3;
+}
+
+.tabela tbody tr:hover {
+    background-color: #e9e9e9;
+}
+.tabela button {
+    padding: 4px 12px;
+    border: black;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+
+}
+
+#up{
+    
+    background: #4CAF50;
+    margin-right: 20px;
+    min-width: 100px;
+    min-height: 10px;
+}
+#up-delet{
+    background: #f44336;
+}
+
+
+
+
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1002;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #0b0e67;
+    color: #fff;
+    padding-top: 60px;
+    transition: left 0.3s ease;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 20px;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+}
+
+.sidebar-header span {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px 20px;
+    border-bottom: 1px solid #444;
+}
+
+.sidebar ul li a {
+    color: #f0f0f0;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s, color 0.3s;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.sidebar ul li a:hover{
+    color: #21D4FD;
+    font-size: 120%;
+    transition: 0.5s;
+}
+
+.sidebar.open {
+    left: 0;
+
+}

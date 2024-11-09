@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'sistema/estoque/css/estoque.css' %}">
+    <link rel="stylesheet" href="{% static "estoque/css/estoque.css" %}">
     <title>Editar Produto</title>
 </head>
 <body>
@@ -46,7 +46,7 @@
     </form>
     <a href="{% url 'estoque' %}"><button id="del">Desistir</button></a> <!-- Responsavel pelo botão 'desistir'-->
 
-    <script src="{% static 'sistema/estoque/js/estoque.js' %}"></script>
+    <script src="{% static 'estoque/js/estoque.js' %}"></script>
     <!-- Responsavel pelo pop-up -->
     <script>
         {% if nao_add %}

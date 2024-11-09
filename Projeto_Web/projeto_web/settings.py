@@ -81,7 +81,6 @@ WSGI_APPLICATION = 'projeto_web.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#database
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

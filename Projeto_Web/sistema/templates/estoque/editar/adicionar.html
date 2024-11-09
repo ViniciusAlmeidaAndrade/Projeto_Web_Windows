@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "sistema/estoque/css/estoque.css" %}">
+    <link rel="stylesheet" href="{% static "estoque/css/estoque.css" %}">
     <title>Adicionar produto</title>
 </head>
 <body>
@@ -48,14 +48,14 @@
         <a href="{% url 'estoque' %}"><button id="del">Desistir</button></a> <!-- Responsavel pelo botão 'desistir' -->
     </div>
     <!-- Responsavel pelo pop-up -->
-<script>
-    {% if nao_add %}
-    alert('Já existe um produto com o mesmo nome!');
-    {% elif add  %}
-    alert('O produto foi adicionado!');
-    {% endif %}
-</script>
+    <script>
+        {% if nao_add %}
+        alert('Já existe um produto com o mesmo nome!');
+        {% elif add  %}
+        alert('O produto foi adicionado!');
+        {% endif %}
+    </script>
 
-<script src="{% static "sistema/estoque/js/estoque.js" %}"></script>
+    <script src="{% static 'estoque/js/estoque.js' %}"></script>
 </body>
 </html>
