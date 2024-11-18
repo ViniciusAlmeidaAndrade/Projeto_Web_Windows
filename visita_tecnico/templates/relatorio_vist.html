@@ -32,24 +32,24 @@
             <li><a href="{% url 'logout' %}"><i class="li-logout"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed" class="icone-li"><path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z"/></svg></i> Logout</a></li>
         </ul>
     </div>
-    <form class="form" action="{% url "relatorio_vist" %}" method="POST">{% csrf_token %}
-            <legend><h3>Relatório de Visitas</h3></legend>
-
+    <div class='container'>
+        <form class="form" action="{% url "relatorio_vist" %}" method="POST">{% csrf_token %}
+            <h2>Relatório de Visitas</h2>
             <div class="colunas-container">
                 <div class="colunas">
-                    <div>
+                    <div class="input-login">
                         <label for="nom_tecnicos">Usuario:</label>
                         <input type="text" id="nom_tecnicos" name="nom_tecnicos" placeholder="Insira o seu usuario de login" required><br><br>
                     </div>
-                    <div>
+                    <div class="input-login">
                         <label for="nom_tecnicos_real">Primeiro Nome:</label>
                         <input type="text" id="nom_tecnicos_real" name="nom_tecnicos_real" placeholder="Insira o seu primeiro nome" required><br><br>
                     </div>
-                     <div>
+                    <div class="input-login">
                         <label for="nom_tecnicos_real_f">Ultimo Nome:</label>
                         <input type="text" id="nom_tecnicos_real_f" name="nom_tecnicos_real_f" placeholder="Insira o seu ultimo nome" required><br><br>
                     </div>
-                    <div>
+                    <div class="input-login">
                         <label for="prod_usados">Produtos utilizados:</label><br>
                         <textarea name="prod_usados" id="prod_usados" rows="3" cols="33" placeholder="Insira os produtos usados Ex:          1x - Cabo c, 3x - Cabo de rede" required></textarea><br><br>
                     </div>
@@ -73,14 +73,12 @@
                     </div>
                 </div>
             </div>
-
-            
-            
             <div>
                 <button type="submit">Enviar</button>
             </div>        
-
     </form>
+    </div>
+
     <script>
         function toggleSidebar() {
         const sidebar = document.getElementById("sidebar");

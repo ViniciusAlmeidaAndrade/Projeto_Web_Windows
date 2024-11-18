@@ -11,46 +11,6 @@
     <title>Meu Estoque</title>
 </head>
 {% if user|has_role:'gerente' %} <!-- Permite que apenas usuarios com cargo de gerente tenham acesso a esse html -->
-
-<style>
-    .modal {
-    display: none; 
-    position: fixed;
-    z-index: 1; 
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
-    text-align: center;
-}
-
-.close {
-    color: #da;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-</style>
-
 <body>
     <!--Modal-->
     <div id="deleteModal" class="modal" style="display: none;">
@@ -60,8 +20,12 @@
             <p>Tem certeza que deseja apagar este produto?</p>
             <form id="deleteForm" method="POST" action="">
                 {% csrf_token %}
-                <button type="submit">Sim, apagar</button>
-                <button type="button" onclick="closeModal()">Cancelar</button>
+                
+                <div class='botao'>
+                    <button type="submit">Sim, apagar</button>
+                    <button type="button" onclick="closeModal()">Cancelar</button>
+                </div>
+                
             </form>
         </div>
     </div>

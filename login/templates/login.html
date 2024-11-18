@@ -5,32 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'login/css/login.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     <title>Login</title>
 </head>
 <body>
-    <div class="form">
-        <form action="#" class="sub-form" method="POST">
+    <main class="container">
+        <form action="#" method="POST">
             {% csrf_token %}
             <div class="subir-form">
-                <h2>Login</h2>
-                <label for="username">Usuário</label>
-                <input type="text" name="username" id="username" placeholder="Insira seu usuário" required> <br>
-
-                <label for="password">Senha</label>
-                <input type="password" name="password" id="password" placeholder="Insira sua senha" required> <br>
-
+                <div>
+                    <h2>Login</h2>
+                </div>
+                <div class="input-login">
+                    <input type="text" name="username" id="username" placeholder="Insira o seu usuário" required>
+                    <i class = 'bx bxs-user'></i>
+                </div>
+                <div class="input-login">
+                    <input type="password" name="password" id="password" placeholder="Insira a sua senha" required>
+                    <i class = 'bx bxs-lock-alt'></i>
+                </div>
                 <div class="butao-login">
                     <button type="submit">Login</button> <br>
                 </div>
             </div>
         </form>
-    </div>
-
+    </main> 
     <script src="{% static 'login/js/login.js' %}"></script>
     <script>
         {% if usuario_invalido %}
         alert('Usuário ou senha inválidos! Tente novamente!');
         {% endif %}
     </script>
-</body>
+</body>     
 </html>

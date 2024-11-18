@@ -16,7 +16,23 @@
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed" class="icone-menu"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
         <i class="fas fa-bars"></i>
     </div>
-
+        <!--Modal-->
+        <div id="deleteModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Deletar Visita</h2>
+                <p>Tem certeza que deseja apagar essa visíta?</p>
+                <form id="deleteForm" method="POST" action="">
+                    {% csrf_token %}
+                    
+                    <div class='botao'>
+                        <button type="submit">Sim, apagar</button>
+                        <button type="button" onclick="closeModal()">Cancelar</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -63,9 +79,8 @@
                     <td>{{ relatorio.observacao }}</td>
                     <td>{{ relatorio.user }}</td>
                     <td>
-                        <a href="{% url 'deletar_visita' relatorio.id_visita %}"><button id="update">Deletar</button></a> <!-- Responsavel pelo botão 'editar' -->
+                        <button id="deletar" onclick="openModal('{% url 'deletar_visita' relatorio.id_visita %}')">Deletar</button>                    
                     </td>
-                </tr>
                 {% endfor %}
             </tbody>
         </table>    
@@ -79,12 +94,22 @@
         alert('A visita foi salva!'); 
         {% endif %}
     </script>
-    <script>
-        function toggleSidebar() {
-        const sidebar = document.getElementById("sidebar");
-        sidebar.classList.toggle("open");
-    }
-    </script>
+</div>   
+<script>
+    function toggleSidebar() {
+const sidebar = document.getElementById("sidebar");
+sidebar.classList.toggle("open");
+}
+function openModal(deleteUrl) {
+document.getElementById("deleteModal").style.display = "block";
+document.getElementById("deleteForm").action = deleteUrl;
+}
+
+function closeModal() {
+document.getElementById("deleteModal").style.display = "none";
+}
+
+</script>
 
     <script src="{% static 'sistema/estoque/js/estoque.js' %}"></script>    
 </body>
